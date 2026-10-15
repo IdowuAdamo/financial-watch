@@ -11,11 +11,6 @@ resource "aws_db_parameter_group" "pg16_vector" {
   name   = "${var.project_name}-${var.environment}-pg16-vector"
   family = "postgres16"
 
-  parameter {
-    name  = "shared_preload_libraries"
-    value = "vector"
-  }
-
   tags = {
     Name = "${var.project_name}-${var.environment}-pg16-vector-params"
   }

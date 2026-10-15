@@ -115,7 +115,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     compress               = false # Important: do not buffer or compress SSE streams
 
     # AWS Managed CachingDisabled policy
-    cache_policy_id = "4135ea2d-6df8-44a3-9df3-444840de83eb"
+    cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
 
     # AWS Managed AllViewerExceptHostHeader policy (forwards X-API-Key, Authorization, Cookies, Query strings)
     origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
@@ -130,7 +130,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     cached_methods         = ["GET", "HEAD"]
     compress               = true
 
-    cache_policy_id = "4135ea2d-6df8-44a3-9df3-444840de83eb"
+    cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
   }
 
   # SPA Routing Fallback
