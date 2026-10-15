@@ -1,0 +1,10 @@
+{
+  "source_id": "cbn",
+  "url": "https://www.cbn.gov.ng/api/GetAllDocuments",
+  "retrieval_date": "2026-10-14T08:17:26.593534+00:00",
+  "sha256": "6902172f6fab648aa874c440ffde60c3098610023658835cc92bd50aa25a1421",
+  "byte_size": 3500404,
+  "record_count": 7362,
+  "endpoint_stability_note": "Undocumented/unstable public API endpoint powering the CBN Kendo UI document table on cbn.gov.ng/Documents/allDocs.html.",
+  "compliance_user_agent": "FinancialWatchBot/1.0 (+https://github.com/client/financial-watch)"
+}

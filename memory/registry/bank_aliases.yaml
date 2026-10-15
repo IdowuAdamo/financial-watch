@@ -1,0 +1,122 @@
+# Bank & Regulatory Entity Resolution Registry
+# Maps conversational mentions, acronyms, and aliases to canonical entity names.
+
+entities:
+  # --- OBVIOUSLY ARTIFICIAL FICTIONAL CLIENT BANKS (Exclusively used in synthetic rumours) ---
+  # NOTE: Explicitly labeled as artificial test institutions; final names to be verified by user.
+  - canonical_name: "Northbridge Example Bank"
+    entity_type: "fictional_client_bank"
+    is_fictional: true
+    label: "[SIMULATED CLIENT DOCUMENT]"
+    aliases:
+      - "Northbridge Bank"
+      - "Northbridge"
+      - "Northbridge Example"
+      - "NEB Nigeria"
+    notes: "Obviously artificial test bank used in simulated recruitment fraud and fake contact alerts."
+
+  - canonical_name: "Apex Horizon Example Bank"
+    entity_type: "fictional_client_bank"
+    is_fictional: true
+    label: "[SIMULATED CLIENT DOCUMENT]"
+    aliases:
+      - "Apex Horizon Bank"
+      - "Apex Horizon"
+      - "Apex Example Bank"
+      - "Apex Example"
+    notes: "Obviously artificial test bank used in simulated liquidity and solvency rumors."
+
+  - canonical_name: "Meridian Mock Bank"
+    entity_type: "fictional_client_bank"
+    is_fictional: true
+    label: "[SIMULATED CLIENT DOCUMENT]"
+    aliases:
+      - "Meridian Mock"
+      - "Meridian Commercial Mock Bank"
+      - "Meridian Test Bank"
+    notes: "Obviously artificial test bank used in simulated IT upgrade/maintenance rumors."
+
+  - canonical_name: "Kreston Test Bank"
+    entity_type: "fictional_client_bank"
+    is_fictional: true
+    label: "[SIMULATED CLIENT DOCUMENT]"
+    aliases:
+      - "Kreston Bank"
+      - "Kreston Test"
+      - "KTB Nigeria"
+    notes: "Obviously artificial test bank with NO matching simulated documents (triggers insufficient_evidence)."
+
+  # --- REAL REGULATORS & AGENCIES (Present in Real KB) ---
+  - canonical_name: "Central Bank of Nigeria"
+    entity_type: "regulator"
+    is_fictional: false
+    aliases:
+      - "CBN"
+      - "Central Bank"
+      - "Apex Regulator"
+      - "Yemi Cardoso"
+      - "Olayemi Cardoso"
+
+  - canonical_name: "Nigeria Deposit Insurance Corporation"
+    entity_type: "regulator"
+    is_fictional: false
+    aliases:
+      - "NDIC"
+      - "Deposit Insurance Corporation"
+
+  - canonical_name: "Securities and Exchange Commission Nigeria"
+    entity_type: "regulator"
+    is_fictional: false
+    aliases:
+      - "SEC"
+      - "SEC Nigeria"
+
+  - canonical_name: "Economic and Financial Crimes Commission"
+    entity_type: "law_enforcement"
+    is_fictional: false
+    aliases:
+      - "EFCC"
+
+  - canonical_name: "Nigerian Financial Intelligence Unit"
+    entity_type: "intelligence"
+    is_fictional: false
+    aliases:
+      - "NFIU"
+
+  # --- REAL NIGERIAN COMMERCIAL BANKS (Referenced ONLY in official directories/circulars) ---
+  - canonical_name: "Access Bank Plc"
+    entity_type: "commercial_bank"
+    is_fictional: false
+    aliases:
+      - "Access Bank"
+      - "Access"
+
+  - canonical_name: "Guaranty Trust Bank Plc"
+    entity_type: "commercial_bank"
+    is_fictional: false
+    aliases:
+      - "GTBank"
+      - "GTB"
+      - "GTCO"
+
+  - canonical_name: "Zenith Bank Plc"
+    entity_type: "commercial_bank"
+    is_fictional: false
+    aliases:
+      - "Zenith Bank"
+      - "Zenith"
+
+  - canonical_name: "United Bank for Africa Plc"
+    entity_type: "commercial_bank"
+    is_fictional: false
+    aliases:
+      - "UBA"
+      - "United Bank for Africa"
+
+  - canonical_name: "First Bank of Nigeria Limited"
+    entity_type: "commercial_bank"
+    is_fictional: false
+    aliases:
+      - "FirstBank"
+      - "First Bank"
+      - "FBN"

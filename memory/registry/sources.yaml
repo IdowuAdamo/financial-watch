@@ -1,0 +1,124 @@
+sources:
+  - id: cbn
+    name: "Central Bank of Nigeria (CBN)"
+    base_url: "https://www.cbn.gov.ng"
+    tier: 1
+    access_method: "sitemap_and_direct"
+    sitemap_url: "https://www.cbn.gov.ng/sitemap.xml"
+    section_allowlist:
+      - "/circulars/"
+      - "/pressreleases/"
+      - "/guidelines/"
+      - "/documents/"
+    disallow_rules:
+      - "/footer.html"
+      - "/header.html"
+      - "/museum/"
+      - "*.asp"
+      - "/appsettings.json"
+    rate_limit_seconds: 2.0
+    page_cap: 30
+    robots_status: "allowed_with_disallows"
+    terms_of_use_note: "Public sector regulatory repository. Public circulars and directives for financial system stability."
+    is_active: true
+
+  - id: ndic
+    name: "Nigeria Deposit Insurance Corporation (NDIC)"
+    base_url: "https://ndic.gov.ng"
+    tier: 1
+    access_method: "sitemap"
+    sitemap_url: "https://ndic.gov.ng/sitemap.xml"
+    section_allowlist:
+      - "/press-releases/"
+      - "/claims/"
+      - "/insurance-coverage/"
+      - "/faqs/"
+    disallow_rules: []
+    rate_limit_seconds: 2.0
+    page_cap: 25
+    robots_status: "allowed_all"
+    terms_of_use_note: "Statutory deposit insurer; public advisories and deposit guarantee declarations."
+    is_active: true
+
+  - id: sec_nigeria
+    name: "Securities and Exchange Commission Nigeria"
+    base_url: "https://sec.gov.ng"
+    tier: 1
+    access_method: "direct_capped"
+    section_allowlist:
+      - "/public-notices/"
+      - "/circulars/"
+    disallow_rules: []
+    rate_limit_seconds: 10.0
+    page_cap: 10
+    robots_status: "404_no_robots"
+    terms_of_use_note: "Robots.txt returned 404. Flagged: needs ToS review. Conservative crawl mode: <=1 req/10s on official notices only."
+    is_active: true
+
+  - id: nfiu
+    name: "Nigerian Financial Intelligence Unit (NFIU)"
+    base_url: "https://www.nfiu.gov.ng"
+    tier: 1
+    access_method: "direct_capped"
+    section_allowlist:
+      - "/advisories/"
+      - "/press-releases/"
+    disallow_rules: []
+    rate_limit_seconds: 10.0
+    page_cap: 10
+    robots_status: "404_no_robots"
+    terms_of_use_note: "Robots.txt returned 404. Flagged: needs ToS review. Conservative crawl mode: <=1 req/10s on official advisories."
+    is_active: true
+
+  - id: dubawa
+    name: "Dubawa Nigeria (Centre for Journalism Innovation and Development)"
+    base_url: "https://dubawa.org"
+    tier: 2
+    access_method: "seed_and_rss"
+    disallow_rules: []
+    crawl_delay_seconds: 60.0
+    rate_limit_seconds: 60.0
+    page_cap: 35
+    robots_status: "allowed_with_crawl_delay"
+    terms_of_use_note: "Robots allows crawling with mandatory Crawl-delay: 60s. Strictly enforced in offline batch crawl."
+    is_active: true
+
+  - id: factcheckhub
+    name: "FactCheckHub"
+    base_url: "https://factcheckhub.com"
+    tier: 2
+    access_method: "sitemap"
+    sitemap_url: "https://factcheckhub.com/sitemap_index.xml"
+    section_allowlist:
+      - "/economy/"
+      - "/finance/"
+      - "/banking/"
+      - "/claim-checks/"
+    disallow_rules: []
+    rate_limit_seconds: 5.0
+    page_cap: 35
+    robots_status: "allowed_all"
+    terms_of_use_note: "Independent fact-checking organization. Public financial rumour investigations."
+    is_active: true
+
+  - id: africa_check
+    name: "Africa Check (Nigeria)"
+    base_url: "https://africacheck.org"
+    tier: 2
+    access_method: "manual_curation_only"
+    rate_limit_seconds: 0.0
+    page_cap: 0
+    robots_status: "403_bot_protected"
+    terms_of_use_note: "HTTP 403 bot protection encountered. Never bypassed. Curated strictly via memory/manual/ with sidecar metadata."
+    is_active: true
+
+  - id: simulated_client
+    name: "Simulated Client Bank Repository"
+    base_url: "internal://simulated-client"
+    tier: 1
+    access_method: "internal_seed"
+    rate_limit_seconds: 0.0
+    page_cap: 50
+    robots_status: "internal_client_authorized"
+    terms_of_use_note: "Simulated official bank publications for client testing. All chunks explicitly labelled [SIMULATED CLIENT DOCUMENT]."
+    is_active: true

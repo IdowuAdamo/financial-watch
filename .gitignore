@@ -1,0 +1,60 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+
+# Terraform state & variables
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfvars
+infra/*.auto.tfvars
+!infra/terraform.tfvars.example
+
+# Python & Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Node & Next.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Large / temporary crawl artifacts
+memory/raw_store/*.bin
+memory/raw_store/*.pdf
+memory/manual/_*.json
+
+# Scratch directory
+scratch/
+
+# Held-out evaluation datasets
+data/heldout_posts.json

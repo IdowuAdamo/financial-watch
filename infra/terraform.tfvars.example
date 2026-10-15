@@ -1,0 +1,24 @@
+# FinancialWatch Infrastructure Configuration Example
+# Copy to terraform.tfvars and fill in required values
+
+aws_region      = "us-east-1"
+environment     = "prod"
+project_name    = "financial-watch"
+vpc_cidr        = "10.0.0.0/16"
+
+# Database Configuration
+db_name         = "financial_watch"
+db_username     = "fw_admin"
+# db_password   = null # Leave null to auto-generate secure 24-character password
+
+# Application Container & Access
+container_image = "123456789012.dkr.ecr.us-east-1.amazonaws.com/financial-watch-backend:latest"
+# api_access_key  = null # Leave null to auto-generate secure 32-character key
+crawler_contact_url = "https://github.com/IdowuAdamo/financial-watch"
+
+# Security: CloudFront to ALB verification header
+# origin_verify_secret = "CustomSecretStringHere" # Leave null to auto-generate
+
+# Monitoring & Budget Alerts
+budget_alert_email    = "security-ops@financialwatch.ng"
+monthly_budget_amount = 20.0
