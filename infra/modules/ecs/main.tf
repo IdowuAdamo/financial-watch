@@ -128,7 +128,7 @@ resource "aws_ecr_repository" "backend" {
   }
 }
 
-# Secrets Manager Container for OpenAI API Key (populated via AWS CLI)
+# Secrets Manager Secret for OpenAI API Key
 resource "aws_secretsmanager_secret" "openai_key" {
   name                    = "${var.project_name}-${var.environment}-openai-key"
   recovery_window_in_days = 0 # Allows immediate deletion on terraform destroy
@@ -137,6 +137,12 @@ resource "aws_secretsmanager_secret" "openai_key" {
     Name = "${var.project_name}-${var.environment}-openai-key"
   }
 }
+
+resource "aws_secretsmanager_secret_version" "openai_key" {
+  secret_id     = aws_secretsmanager_secret.openai_key.id
+  secret_string = var.openai_api_key != "" ? var.openai_api_key : "dummy-openai-key-configure-in-secrets-manager"
+}
+
 
 # Secrets Manager Secret for Database Connection URL (prevents plain text credentials)
 resource "aws_secretsmanager_secret" "database_url" {
