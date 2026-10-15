@@ -13,15 +13,9 @@ terraform {
   }
 
   # Remote State Storage with S3 Native State Locking (Terraform >= 1.10)
-  # When deploying, uncomment the backend block or initialize with:
-  # terraform init -backend-config="bucket=YOUR_TF_STATE_BUCKET" -backend-config="region=YOUR_AWS_REGION"
-  #
-  # backend "s3" {
-  #   bucket       = "financial-watch-terraform-state"
-  #   key          = "financial-watch/prod/terraform.tfstate"
-  #   region       = "af-south-1"
-  #   use_lockfile = true
-  # }
+  backend "s3" {
+    use_lockfile = true
+  }
 }
 
 provider "aws" {

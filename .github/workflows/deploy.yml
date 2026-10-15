@@ -90,6 +90,12 @@ jobs:
         with:
           terraform_version: "1.16.4"
 
+      - name: Clean Orphaned Resources (Initial Bootstrap Only)
+        working-directory: .
+        run: |
+          chmod +x .github/scripts/cleanup_orphans.sh
+          .github/scripts/cleanup_orphans.sh "${{ secrets.TF_STATE_BUCKET }}"
+
       - name: Terraform Init
         run: |
           terraform init \
