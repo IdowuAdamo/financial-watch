@@ -58,3 +58,8 @@ scratch/
 
 # Held-out evaluation datasets
 data/heldout_posts.json
+
+# Tool caches
+.ruff_cache/
+.mypy_cache/
+*.tsbuildinfo
