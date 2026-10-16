@@ -91,6 +91,12 @@ resource "aws_cloudfront_distribution" "cdn" {
       name  = "X-Origin-Verify"
       value = var.origin_verify_secret
     }
+
+    # Inject API access key so frontend requests through CloudFront are automatically authenticated
+    custom_header {
+      name  = "X-API-Key"
+      value = var.api_access_key
+    }
   }
 
   # Default behavior: Serve static frontend from S3
@@ -133,16 +139,9 @@ resource "aws_cloudfront_distribution" "cdn" {
     cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
   }
 
-  # SPA Routing Fallback
+  # SPA Routing Fallback (404 only so API 401/403/500 errors are not swallowed into HTML)
   custom_error_response {
     error_code            = 404
-    response_code         = 200
-    response_page_path    = "/index.html"
-    error_caching_min_ttl = 10
-  }
-
-  custom_error_response {
-    error_code            = 403
     response_code         = 200
     response_page_path    = "/index.html"
     error_caching_min_ttl = 10

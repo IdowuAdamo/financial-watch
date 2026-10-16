@@ -150,11 +150,11 @@ export default function Header({
                   lineHeight: 1.5,
                 }}
               >
-                The access key is stored securely in session storage and runtime memory. It is passed via the{' '}
+                Deployed requests through CloudFront are authenticated automatically. If you wish to use a custom evaluation access key or test external client credentials, enter it below. It will be passed via the{' '}
                 <code style={{ fontFamily: 'var(--font-mono)', background: 'var(--bg-surface-subtle)', padding: '2px 4px', borderRadius: '4px' }}>
                   X-API-Key
                 </code>{' '}
-                header to verify inbound requests.
+                header.
               </p>
 
               <div className="form-group">
@@ -173,7 +173,7 @@ export default function Header({
                       handleSaveKey();
                     }
                   }}
-                  placeholder="e.g. fw-test-access-key-2026"
+                  placeholder="Enter custom API access key (optional)"
                   autoFocus
                 />
               </div>

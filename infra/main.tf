@@ -82,6 +82,7 @@ module "cloudfront_s3" {
   environment          = var.environment
   alb_dns_name         = module.alb.dns_name
   origin_verify_secret = local.origin_verify_secret
+  api_access_key       = local.api_access_key
 }
 
 # 6. EventBridge Scheduled Ingestion & Database Migration Task Module

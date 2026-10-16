@@ -278,58 +278,26 @@ export default function ResultPanel({
               Paste a social post, rumour, or financial claim on the left to verify its factual accuracy against authoritative CBN and NDIC archives, score institutional risk, and generate compliance-validated response drafts.
             </p>
 
-            {/* Access Key Status Indicator in Empty State */}
-            {!apiKey ? (
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-2)',
-                  backgroundColor: 'var(--color-warning-bg)',
-                  border: '1px solid var(--color-warning-border)',
-                  color: 'var(--color-warning-text)',
-                  padding: '6px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--font-size-xs)',
-                  marginBottom: 'var(--space-4)',
-                }}
-              >
-                <Key size={14} />
-                <span>Needs access key to run live analysis</span>
-                <button
-                  id="btn-set-key-empty-state"
-                  type="button"
-                  className="btn btn-outline btn-sm"
-                  onClick={onOpenKeyModal}
-                  style={{
-                    padding: '2px 8px',
-                    fontSize: 'var(--font-size-xs)',
-                    color: 'var(--color-warning-text)',
-                    borderColor: 'var(--color-warning-border)',
-                  }}
-                >
-                  Set Key
-                </button>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-2)',
-                  backgroundColor: 'var(--color-success-bg)',
-                  border: '1px solid var(--color-success-border)',
-                  color: 'var(--color-success-text)',
-                  padding: '5px 12px',
-                  borderRadius: 'var(--radius-full)',
-                  fontSize: 'var(--font-size-xs)',
-                  marginBottom: 'var(--space-4)',
-                }}
-              >
-                <CheckCircle size={14} />
-                <span>Access key configured • Engine ready</span>
-              </div>
-            )}
+            {/* Engine Status Indicator in Empty State */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                backgroundColor: 'var(--color-success-bg)',
+                border: '1px solid var(--color-success-border)',
+                color: 'var(--color-success-text)',
+                padding: '5px 12px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--font-size-xs)',
+                marginBottom: 'var(--space-4)',
+              }}
+            >
+              <CheckCircle size={14} />
+              <span>
+                {apiKey ? 'Custom Access Key Active • Engine Ready' : 'Multi-Agent Engine Active • Live Intelligence Ready'}
+              </span>
+            </div>
 
             {/* Quick Example Suggestions */}
             <div>

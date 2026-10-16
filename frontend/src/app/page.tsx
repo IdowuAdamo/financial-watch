@@ -38,36 +38,40 @@ export default function Home() {
     timestamp?: string;
     source_adapter: string;
   }) => {
-    if (!apiKey) {
-      setErrorMessage("API Access Key required. Please click 'Enter Key' in the top bar to set your access key.");
-      setShowKeyModal(true);
-      return;
-    }
-
     setIsStreaming(true);
     setTraces([]);
     setLatestResult(null);
     setErrorMessage(null);
 
     try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      if (apiKey) {
+        headers['X-API-Key'] = apiKey;
+      }
+
       // Use fetch-based SSE reader (supports POST with custom headers)
       const response = await fetch(`${API_BASE_URL}/api/posts/analyze`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': apiKey,
-        },
+        headers,
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
-          throw new Error('Authentication failed. Please verify your X-API-Key.');
+          setShowKeyModal(true);
+          throw new Error('Authentication required. Please enter an active API Access Key.');
         } else if (response.status === 429) {
           throw new Error('Rate limit exceeded (30 requests/minute). Please wait a moment.');
         } else {
           throw new Error(`Server returned HTTP ${response.status}`);
         }
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('text/event-stream')) {
+        throw new Error('Analysis endpoint returned unexpected response format. Please verify connection.');
       }
 
       if (!response.body) {
