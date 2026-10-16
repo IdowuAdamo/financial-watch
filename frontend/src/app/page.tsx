@@ -10,10 +10,11 @@ import KBGovernanceView from '../components/KBGovernanceView';
 import { PipelineTraceStep, FullAnalysisResult } from '../types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const DEFAULT_API_KEY = process.env.NEXT_PUBLIC_API_ACCESS_KEY || '';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('analyze');
-  const [apiKey, setApiKey] = useState<string>('');
+  const [apiKey, setApiKey] = useState<string>(DEFAULT_API_KEY);
   const [showKeyModal, setShowKeyModal] = useState<boolean>(false);
   const [traces, setTraces] = useState<PipelineTraceStep[]>([]);
   const [latestResult, setLatestResult] = useState<FullAnalysisResult | null>(null);
@@ -26,6 +27,8 @@ export default function Home() {
       const stored = sessionStorage.getItem('FW_ACCESS_KEY');
       if (stored) {
         setApiKey(stored);
+      } else if (DEFAULT_API_KEY) {
+        setApiKey(DEFAULT_API_KEY);
       }
     }
   }, []);

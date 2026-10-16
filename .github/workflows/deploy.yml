@@ -75,6 +75,7 @@ jobs:
       s3_bucket: ${{ steps.tf-outputs.outputs.s3_bucket }}
       ecs_cluster: ${{ steps.tf-outputs.outputs.ecs_cluster }}
       ecs_service: ${{ steps.tf-outputs.outputs.ecs_service }}
+      api_access_key: ${{ steps.tf-outputs.outputs.api_access_key }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -125,6 +126,7 @@ jobs:
           echo "s3_bucket=$(terraform output -raw frontend_s3_bucket)" >> $GITHUB_OUTPUT
           echo "ecs_cluster=$(terraform output -raw ecs_cluster_name)" >> $GITHUB_OUTPUT
           echo "ecs_service=$(terraform output -raw ecs_service_name)" >> $GITHUB_OUTPUT
+          echo "api_access_key=$(terraform output -raw api_access_key)" >> $GITHUB_OUTPUT
 
   deploy-frontend-and-smoke-test:
     name: Deploy Static Frontend, Invalidate CDN & Smoke Test
@@ -147,6 +149,8 @@ jobs:
 
       - name: Build Next.js Static Export
         working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_ACCESS_KEY: ${{ needs.terraform-apply.outputs.api_access_key }}
         run: |
           npm ci
           npm run build

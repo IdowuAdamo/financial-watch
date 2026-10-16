@@ -91,12 +91,6 @@ resource "aws_cloudfront_distribution" "cdn" {
       name  = "X-Origin-Verify"
       value = var.origin_verify_secret
     }
-
-    # Inject API access key so frontend requests through CloudFront are automatically authenticated
-    custom_header {
-      name  = "X-API-Key"
-      value = var.api_access_key
-    }
   }
 
   # Default behavior: Serve static frontend from S3
