@@ -3,20 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Database, ShieldCheck, AlertCircle, RefreshCw, FileText } from 'lucide-react';
 import { KBSource } from '../types';
 
-interface KBGovernanceViewProps {
-  apiKey: string;
-}
-
-export default function KBGovernanceView({ apiKey }: KBGovernanceViewProps) {
+export default function KBGovernanceView() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/kb/status', {
-        headers: apiKey ? { 'X-API-Key': apiKey } : {},
-      });
+      const res = await fetch('/api/kb/status');
       if (res.ok) {
         setData(await res.json());
       }
@@ -29,7 +23,7 @@ export default function KBGovernanceView({ apiKey }: KBGovernanceViewProps) {
 
   useEffect(() => {
     fetchStatus();
-  }, [apiKey]);
+  }, []);
 
   const sources: KBSource[] = data?.sources || [];
   const dbStats = data?.database_stats || {};

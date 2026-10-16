@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import NoticeBanner from '../components/NoticeBanner';
 import PasteIntake from '../components/PasteIntake';
@@ -10,28 +10,13 @@ import KBGovernanceView from '../components/KBGovernanceView';
 import { PipelineTraceStep, FullAnalysisResult } from '../types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
-const DEFAULT_API_KEY = process.env.NEXT_PUBLIC_API_ACCESS_KEY || '';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('analyze');
-  const [apiKey, setApiKey] = useState<string>(DEFAULT_API_KEY);
-  const [showKeyModal, setShowKeyModal] = useState<boolean>(false);
   const [traces, setTraces] = useState<PipelineTraceStep[]>([]);
   const [latestResult, setLatestResult] = useState<FullAnalysisResult | null>(null);
   const [isStreaming, setIsStreaming] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // Restore access key from session storage on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = sessionStorage.getItem('FW_ACCESS_KEY');
-      if (stored) {
-        setApiKey(stored);
-      } else if (DEFAULT_API_KEY) {
-        setApiKey(DEFAULT_API_KEY);
-      }
-    }
-  }, []);
 
   const handleAnalyze = async (payload: {
     text: string;
@@ -47,25 +32,17 @@ export default function Home() {
     setErrorMessage(null);
 
     try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      if (apiKey) {
-        headers['X-API-Key'] = apiKey;
-      }
-
-      // Use fetch-based SSE reader (supports POST with custom headers)
+      // Direct open fetch without requiring any access keys
       const response = await fetch(`${API_BASE_URL}/api/posts/analyze`, {
         method: 'POST',
-        headers,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-          setShowKeyModal(true);
-          throw new Error('Authentication required. Please enter an active API Access Key.');
-        } else if (response.status === 429) {
+        if (response.status === 429) {
           throw new Error('Rate limit exceeded (30 requests/minute). Please wait a moment.');
         } else {
           throw new Error(`Server returned HTTP ${response.status}`);
@@ -152,10 +129,6 @@ export default function Home() {
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        apiKey={apiKey}
-        setApiKey={setApiKey}
-        showKeyModal={showKeyModal}
-        setShowKeyModal={setShowKeyModal}
       />
 
       <main className="main-content">
@@ -166,7 +139,6 @@ export default function Home() {
               <PasteIntake
                 onAnalyze={handleAnalyze}
                 isStreaming={isStreaming}
-                apiKey={apiKey}
               />
             </div>
 
@@ -176,24 +148,22 @@ export default function Home() {
                 latestResult={latestResult}
                 traces={traces}
                 isStreaming={isStreaming}
-                apiKey={apiKey}
                 errorMessage={errorMessage}
-                onOpenKeyModal={() => setShowKeyModal(true)}
               />
             </div>
           </div>
         )}
 
         {activeTab === 'queue' && (
-          <ApprovalQueueView apiKey={apiKey} />
+          <ApprovalQueueView />
         )}
 
         {activeTab === 'narratives' && (
-          <NarrativeView apiKey={apiKey} />
+          <NarrativeView />
         )}
 
         {activeTab === 'governance' && (
-          <KBGovernanceView apiKey={apiKey} />
+          <KBGovernanceView />
         )}
       </main>
 

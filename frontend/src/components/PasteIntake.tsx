@@ -66,7 +66,6 @@ interface PasteIntakeProps {
     source_adapter: string;
   }) => void;
   isStreaming: boolean;
-  apiKey: string;
   onSelectExample?: (text: string) => void;
 }
 

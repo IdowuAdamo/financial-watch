@@ -191,13 +191,13 @@ jobs:
             exit 1
           fi
 
-          echo "Verifying API Auth Protection..."
-          UNAUTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL/api/posts" || true)
-          if [ "$UNAUTH_STATUS" -ne 401 ]; then
-            echo "Security test FAILED! Unauthenticated request did not return 401."
+          echo "Verifying API Live Endpoint Response..."
+          API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL/api/posts" || true)
+          if [ "$API_STATUS" -ne 200 ]; then
+            echo "Smoke test FAILED! API endpoint did not return 200 (got HTTP $API_STATUS)."
             exit 1
           fi
-          echo "Smoke test passed successfully!"
+          echo "Smoke test passed successfully! Both health and analysis API endpoints are live."
 
       - name: Automated Rollback on Smoke Test Failure
         if: failure() && steps.smoke-test.outcome == 'failure'

@@ -22,9 +22,7 @@ interface ResultPanelProps {
   latestResult: FullAnalysisResult | null;
   traces: PipelineTraceStep[];
   isStreaming: boolean;
-  apiKey: string;
   errorMessage: string | null;
-  onOpenKeyModal: () => void;
   onSelectExample?: (text: string) => void;
 }
 
@@ -39,9 +37,7 @@ export default function ResultPanel({
   latestResult,
   traces,
   isStreaming,
-  apiKey,
   errorMessage,
-  onOpenKeyModal,
   onSelectExample,
 }: ResultPanelProps) {
   const [isTimelineOpen, setIsTimelineOpen] = useState(true);
@@ -63,7 +59,6 @@ export default function ResultPanel({
     try {
       const res = await fetch(`/api/queue/${latestResult.post_id}/approve`, {
         method: 'POST',
-        headers: apiKey ? { 'X-API-Key': apiKey } : {},
       });
       if (res.ok) {
         setApprovalStatus('approved');
@@ -87,7 +82,6 @@ export default function ResultPanel({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(apiKey ? { 'X-API-Key': apiKey } : {}),
         },
         body: JSON.stringify({
           edited_formal_response: editedFormal,
@@ -117,7 +111,6 @@ export default function ResultPanel({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(apiKey ? { 'X-API-Key': apiKey } : {}),
         },
         body: JSON.stringify({ reason }),
       });
@@ -151,20 +144,8 @@ export default function ResultPanel({
               fontSize: 'var(--font-size-base)',
             }}
           >
-            <strong>Error:</strong> {errorMessage}
+            <strong>Notice:</strong> {errorMessage}
           </div>
-          {!apiKey && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={onOpenKeyModal}
-              >
-                <Key size={14} />
-                Enter Access Key
-              </button>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -294,9 +275,7 @@ export default function ResultPanel({
               }}
             >
               <CheckCircle size={14} />
-              <span>
-                {apiKey ? 'Custom Access Key Active • Engine Ready' : 'Multi-Agent Engine Active • Live Intelligence Ready'}
-              </span>
+              <span>Multi-Agent Engine Active • Live Intelligence Ready</span>
             </div>
 
             {/* Quick Example Suggestions */}

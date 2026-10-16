@@ -18,20 +18,12 @@ async def test_health_check():
         assert resp.json()["status"] == "ok"
 
 @pytest.mark.asyncio
-async def test_api_key_security_enforcement():
+async def test_api_public_access():
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
-        # 1. Missing API key -> 401
+        # Public access without key -> 200 OK
         resp_no_key = await client.get("/api/posts")
-        assert resp_no_key.status_code == 401
-
-        # 2. Invalid API key -> 403
-        resp_bad_key = await client.get("/api/posts", headers={"X-API-Key": "invalid-secret"})
-        assert resp_bad_key.status_code == 403
-
-        # 3. Valid API key -> 200
-        resp_valid = await client.get("/api/posts", headers={"X-API-Key": VALID_API_KEY})
-        assert resp_valid.status_code == 200
+        assert resp_no_key.status_code == 200
 
 @pytest.mark.asyncio
 async def test_get_seed_posts():

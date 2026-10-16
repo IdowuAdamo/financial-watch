@@ -2,21 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, BarChart2, AlertTriangle, ShieldCheck, Activity } from 'lucide-react';
 
-interface NarrativeViewProps {
-  apiKey: string;
-}
-
-export default function NarrativeView({ apiKey }: NarrativeViewProps) {
+export default function NarrativeView() {
   const [narratives, setNarratives] = useState<any[]>([]);
   const [riskOverview, setRiskOverview] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const headers: Record<string, string> = apiKey ? { 'X-API-Key': apiKey } : {};
         const [narrRes, riskRes] = await Promise.all([
-          fetch('/api/narratives', { headers }),
-          fetch('/api/risk', { headers }),
+          fetch('/api/narratives'),
+          fetch('/api/risk'),
         ]);
         if (narrRes.ok) setNarratives(await narrRes.json());
         if (riskRes.ok) setRiskOverview(await riskRes.json());
@@ -25,7 +20,7 @@ export default function NarrativeView({ apiKey }: NarrativeViewProps) {
       }
     };
     fetchData();
-  }, [apiKey]);
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>

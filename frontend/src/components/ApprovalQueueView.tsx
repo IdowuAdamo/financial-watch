@@ -3,31 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, Edit3, ShieldAlert, AlertCircle, RefreshCw } from 'lucide-react';
 import { FullAnalysisResult } from '../types';
 
-interface ApprovalQueueViewProps {
-  apiKey: string;
-}
-
-export default function ApprovalQueueView({ apiKey }: ApprovalQueueViewProps) {
+export default function ApprovalQueueView() {
   const [items, setItems] = useState<FullAnalysisResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editedFormal, setEditedFormal] = useState('');
   const [editedPidgin, setEditedPidgin] = useState('');
 
-  const getAuthHeaders = (extra: Record<string, string> = {}) => {
-    const headers: Record<string, string> = { ...extra };
-    if (apiKey) {
-      headers['X-API-Key'] = apiKey;
-    }
-    return headers;
-  };
-
   const fetchQueue = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/queue', {
-        headers: getAuthHeaders(),
-      });
+      const res = await fetch('/api/queue');
       if (res.ok) {
         const data = await res.json();
         setItems(data);
@@ -41,13 +27,12 @@ export default function ApprovalQueueView({ apiKey }: ApprovalQueueViewProps) {
 
   useEffect(() => {
     fetchQueue();
-  }, [apiKey]);
+  }, []);
 
   const handleApprove = async (postId: string) => {
     try {
       const res = await fetch(`/api/queue/${postId}/approve`, {
         method: 'POST',
-        headers: getAuthHeaders(),
       });
       if (res.ok) {
         fetchQueue();
@@ -63,7 +48,7 @@ export default function ApprovalQueueView({ apiKey }: ApprovalQueueViewProps) {
     try {
       const res = await fetch(`/api/queue/${postId}/reject`, {
         method: 'POST',
-        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason }),
       });
       if (res.ok) {
@@ -84,7 +69,7 @@ export default function ApprovalQueueView({ apiKey }: ApprovalQueueViewProps) {
     try {
       const res = await fetch(`/api/queue/${postId}/edit`, {
         method: 'POST',
-        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           edited_formal_response: editedFormal,
           edited_pidgin_response: editedPidgin,

@@ -43,36 +43,17 @@ async def verify_api_key(
     api_key: str | None = Security(API_KEY_HEADER)
 ) -> str:
     """
-    Validates the X-API-Key header using constant-time string comparison.
-    Also enforces per-key rate limiting.
+    Open public access middleware for FinancialWatch intelligence dashboard.
+    Authentication key is optional. Enforces per-client IP sliding window rate
+    limiting and payload size caps to guard against denial of service.
     """
     # Allow OPTIONS preflight
     if request.method == "OPTIONS":
         return ""
 
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing required X-API-Key header."
-        )
-
-    expected_key = os.getenv("API_ACCESS_KEY", EXPECTED_API_KEY)
-    if not expected_key:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="API_ACCESS_KEY is not configured on the server."
-        )
-
-    # Constant-time comparison
-    if not hmac.compare_digest(api_key, expected_key):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Invalid API Access Key."
-        )
-
-    # Rate limiting
+    # Rate limiting enforced by client IP
     client_ip = request.client.host if request.client else "unknown"
-    rate_key = f"{api_key}:{client_ip}"
+    rate_key = f"ip:{client_ip}"
     limited, retry_after = rate_limiter.is_rate_limited(rate_key)
     if limited:
         raise HTTPException(
@@ -81,7 +62,7 @@ async def verify_api_key(
             headers={"Retry-After": str(retry_after)}
         )
 
-    return api_key
+    return api_key or "public"
 
 def validate_post_length(text: str):
     """Enforces strict input length caps on analyzed text."""
